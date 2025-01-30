@@ -95,9 +95,11 @@ def create_invoice(json_data, output_path):
     btw = round(subtotal * 0.21, 2)
     totaal = round(subtotal + btw, 2)
     
-    c.drawString(350, y_position - 20, f"Subtotaal: € {subtotal:.2f}")
-    c.drawString(350, y_position - 40, f"BTW (21%): € {btw:.2f}")
-    c.drawString(350, y_position - 60, f"Totaal: € {totaal:.2f}")
+    # Totalen rechts uitlijnen
+    totalen_x = 540  # Startpositie voor totalen
+    c.drawRightString(totalen_x, y_position - 20, f"Subtotaal: € {subtotal:.2f}")
+    c.drawRightString(totalen_x, y_position - 40, f"BTW (21%): € {btw:.2f}")
+    c.drawRightString(totalen_x, y_position - 60, f"Totaal: € {totaal:.2f}")
     
     c.save()
     print(f"Factuur opgeslagen: {output_path}")
