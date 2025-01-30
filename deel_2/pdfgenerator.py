@@ -26,46 +26,45 @@ def load_json(filepath):
 def create_invoice(json_data, output_path):
     c = canvas.Canvas(output_path, pagesize=A4)
     width, height = A4
-    c.setFont("Helvetica-Bold", 16)
+    c.setFont("Helvetica", 8)  # Kleinere lettergrootte
     c.drawString(50, height - 50, "Factuur")
-    c.setFont("Helvetica", 12)
     
     # Factuurdetails
-    y_position = height - 90
+    y_position = height - 70
     c.drawString(50, y_position, f"Factuurnummer: {json_data['factuur']['factuurnummer']}")
-    c.drawString(50, y_position - 20, f"Datum: {json_data['factuur']['factuurdatum']}")
-    y_position -= 40
+    c.drawString(50, y_position - 15, f"Datum: {json_data['factuur']['factuurdatum']}")
+    y_position -= 30
     
     # Klantgegevens
     klant = json_data['factuur']['klant']
     c.drawString(50, y_position, f"Klant: {klant['naam']}")
-    c.drawString(50, y_position - 20, f"Adres: {klant['adres']}, {klant['postcode']} {klant['stad']}")
-    y_position -= 40
+    c.drawString(50, y_position - 15, f"Adres: {klant['adres']}, {klant['postcode']} {klant['stad']}")
+    y_position -= 30
     
     # Producten
     c.drawString(50, y_position, "Omschrijving")
     c.drawString(250, y_position, "Aantal")
     c.drawString(350, y_position, "Prijs per stuk")
     c.drawString(500, y_position, "Totaal")
-    y_position -= 20
+    y_position -= 15
     c.line(50, y_position, 550, y_position)
     
     subtotal = 0
     for item in json_data['factuur']['producten']:
         totaal_prijs = item['aantal'] * item['prijs_per_stuk_excl_btw']
-        c.drawString(50, y_position - 20, item['productnaam'])
-        c.drawString(250, y_position - 20, str(item['aantal']))
-        c.drawString(350, y_position - 20, f"€ {item['prijs_per_stuk_excl_btw']:.2f}")
-        c.drawString(500, y_position - 20, f"€ {totaal_prijs:.2f}")
+        c.drawString(50, y_position - 15, item['productnaam'])
+        c.drawString(250, y_position - 15, str(item['aantal']))
+        c.drawString(350, y_position - 15, f"€ {item['prijs_per_stuk_excl_btw']:.2f}")
+        c.drawString(500, y_position - 15, f"€ {totaal_prijs:.2f}")
         subtotal += totaal_prijs
-        y_position -= 20
+        y_position -= 15
     
     btw = round(subtotal * 0.21, 2)
     totaal = round(subtotal + btw, 2)
     
-    c.drawString(350, y_position - 20, f"Subtotaal: € {subtotal:.2f}")
-    c.drawString(350, y_position - 40, f"BTW (21%): € {btw:.2f}")
-    c.drawString(350, y_position - 60, f"Totaal: € {totaal:.2f}")
+    c.drawString(350, y_position - 15, f"Subtotaal: € {subtotal:.2f}")
+    c.drawString(350, y_position - 30, f"BTW (21%): € {btw:.2f}")
+    c.drawString(350, y_position - 45, f"Totaal: € {totaal:.2f}")
     
     c.save()
     print(f"Factuur opgeslagen: {output_path}")
