@@ -15,6 +15,17 @@ os.makedirs(INVOICE_DIR, exist_ok=True)
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 os.makedirs(ERROR_DIR, exist_ok=True)
 
+# Bedrijfsgegevens
+BEDRIJFSNAAM = "TechSolutions BV"
+ADRES = "Mijlweg 81"
+POSTCODE = "3316 BE"
+PLAATS = "Dordrecht"
+KVK_NUMMER = "12345678"
+BTW_NUMMER = "NL123456789B01"
+TELEFOON = "030-1234567"
+EMAIL = "info@techsolutions.nl"
+WEBSITE = "www.techsolutions.nl"
+
 # Functie om JSON-bestand in te lezen
 def load_json(filepath):
     try:
@@ -35,8 +46,18 @@ def create_invoice(json_data, output_path):
     if 'order' not in json_data:
         raise KeyError("'order' niet gevonden in de JSON-structuur.")
     
-    # Factuurdetails
+    # Bedrijfsgegevens
     y_position = height - 90
+    c.drawString(50, y_position, f"Bedrijf: {BEDRIJFSNAAM}")
+    c.drawString(50, y_position - 20, f"Adres: {ADRES}, {POSTCODE} {PLAATS}")
+    c.drawString(50, y_position - 40, f"KVK-nummer: {KVK_NUMMER}")
+    c.drawString(50, y_position - 60, f"BTW-nummer: {BTW_NUMMER}")
+    c.drawString(50, y_position - 80, f"Telefoon: {TELEFOON}")
+    c.drawString(50, y_position - 100, f"E-mail: {EMAIL}")
+    c.drawString(50, y_position - 120, f"Website: {WEBSITE}")
+    y_position -= 140
+    
+    # Factuurdetails
     order = json_data['order']
     c.drawString(50, y_position, f"Ordernummer: {order.get('ordernummer', 'N/A')}")
     c.drawString(50, y_position - 20, f"Datum: {order.get('orderdatum', 'N/A')}")
